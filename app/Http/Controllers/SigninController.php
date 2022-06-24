@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Signin;
 use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use \Yajra\Datatables\Datatables;
@@ -26,8 +25,7 @@ class SigninController extends Controller
         ];
 
         if ($request->ajax()) {
-            $q_user = Signin::select('*')->where('level','!=', 0)->orderByDesc('created_at');
- 
+            $q_user = Signin::select('*'); 
             return Datatables::of($q_user)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -44,40 +42,33 @@ class SigninController extends Controller
         return view('layouts.v_template',$data);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
-    {
-        Signin::updateOrCreate(['id' => $request->user_id],
+    {        
+        $request->validate([
+            'foto' => 'required|image'
+        ]);
+
+        if ($request->hasFile('foto') == true) {
+            $file_name = $request->file('foto')->store('gambar/pengguna');
+            // dd($file_name);
+        }
+        Signin::updateOrCreate(['id' => $request->id],
                 [
                  'userid' => $request->userid,
                  'pass' => Hash::make($request->pass),
                  'nama' => $request->nama,
-                 'email' => $request->email,
                  'level' => $request->level,
+                 'email' => $request->email,
+                 'foto' => $file_name,
                 ]);        
 
         return response()->json(['success'=>'User saved successfully!']);
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit($id)
     {
         $User = Signin::find($id);
         return response()->json($User);
-
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     public function destroy($id)

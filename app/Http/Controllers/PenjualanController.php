@@ -2,30 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penjualan;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use \Yajra\Datatables\Datatables;
-
-class UsersController extends Controller
+use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\ValidateRequests;
+class PenjualanController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-    } 
+    }
 
     public function index(Request $request)
     {
         $data = [
-            'count_user' => User::latest()->count(),
+            'count_user' => Penjualan::latest()->count(),
             'menu'       => 'menu.v_menu_admin',
-            'content'    => 'content.view_user',
-            'title'    => 'Table Admin'
+            'content'    => 'content.view_penjualan',
+            'title'    => 'Table Penjualan'
         ];
 
         if ($request->ajax()) {
-            $q_user = User::select('*')->orderByDesc('created_at');
+            $q_user = Penjualan::select('*');
             return Datatables::of($q_user)
                     ->addIndexColumn()
                     ->addColumn('action', function($row){
@@ -38,48 +40,20 @@ class UsersController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
-
+        // return $data;
         return view('layouts.v_template',$data);
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        User::updateOrCreate(['id' => $request->user_id],
-                [
-                 'name' => $request->name,
-                 'email' => $request->email,
-                 'password' => Hash::make($request->password),
-                ]);        
-
-        return response()->json(['success'=>'User saved successfully!']);
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit($id)
     {
-        $User = User::find($id);
+        $User = Penjualan::find($id);
         return response()->json($User);
-
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     public function destroy($id)
     {
-        User::find($id)->delete();
+        Penjualan::find($id)->delete();
 
-        return response()->json(['success'=>'Customer deleted!']);
+        return response()->json(['success'=>'Produk deleted!']);
     }
 }

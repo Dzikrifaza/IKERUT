@@ -17,7 +17,6 @@
                                     <th>Name</th>
                                     <th>Email</th>
                                     <th>Password</th>
-                                    <th>Level</th>
                                     <th style="width:90px;">Action</th>
                                 </tr>
                             </thead>
@@ -61,10 +60,7 @@
                         <input type="text" name="name" class="form-control" id="name" placeholder="Nama"><br>
                         <input type="email" name="email" class="form-control" id="email" placeholder="email"><br>
                         <input type="text" name="password" class="form-control" placeholder="password"><br>
-                        <select name="level" class="form-control" id="level">
-                            <option value="-">Pilih Level</option>
-                            <option value="1">1</option>
-                        </select><br>
+                      
                         <input type="hidden" name="user_id" id="user_id" value="">
                     </div>
                 </form>
@@ -124,10 +120,6 @@
                     name: 'password'
                 },
                 {
-                    data: 'level',
-                    name: 'level'
-                },
-                {
                     data: 'action',
                     name: 'action',
                     orderable: false,
@@ -159,7 +151,6 @@
                 $('#name').val(data.name);
                 $('#password').val(data.password);
                 $('#email').val(data.email);
-                $('#level').val(data.level);
             })
         });
         // initialize btn save

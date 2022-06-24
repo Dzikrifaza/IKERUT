@@ -3,9 +3,6 @@
         <div class="card">
             <div class="card-header">
                 <h2>{{$title}}</h2>
-                <div class="d-flex flex-row-reverse"><button
-                        class="btn btn-sm btn-pill btn-outline-primary font-weight-bolder" id="createNewUser"><i
-                            class="fas fa-plus"></i>Add data </button></div>
             </div>
             <div class="card-body">
                 <div class="col-md-12">
@@ -14,16 +11,15 @@
                             <thead class="font-weight-bold text-center">
                                 <tr>
                                     {{-- <th>No.</th> --}}
-                                    <th>Id Kategori</th>
-                                    <th>Id Sub Kategori</th>
-                                    <th>Kategori</th>
-                                    <th>Sub Kategori</th>
+                                    <th>Nota</th>
+                                    <th>Tanggal</th>
+                                    <th>Id Produk</th>
                                     <th>Judul</th>
                                     <th>Deskripsi</th>
                                     <th>Harga</th>
                                     <th>Foto</th>
                                     <th>Jumlah</th>
-                                    <th>Satuan</th>
+                                    <th>Pengguna</th>
                                     <th style="width:90px;">Action</th>
                                 </tr>
                                 
@@ -128,30 +124,22 @@
             buttons: [
                 'copy', 'excel', 'pdf'
             ],
-            ajax: "{{ route('produk.index') }}",
+            ajax: "{{ route('penjualan.index') }}",
             columns: [{
-                    data: 'idkategori',
-                    name: 'idkategori'
+                    data: 'nota',
+                    name: 'nota'
                 },
                 {
-                    data: 'idsubkategori',
-                    name: 'idsubkategori'
+                    data: 'tanggal',
+                    name: 'tanggal'
                 },
                 {
-                    data: 'kategori',
-                    name: 'kategori'
-                },
-                {
-                    data: 'subkategori',
-                    name: 'subkategori'
+                    data: 'idproduk',
+                    name: 'idproduk'
                 },
                 {
                     data: 'judul',
                     name: 'judul'
-                },
-                {
-                    data: 'deskripsi',
-                    name: 'deskripsi'
                 },
                 {
                     data: 'harga',
@@ -162,12 +150,12 @@
                     name: 'thumbnail'
                 },
                 {
-                    data: 'st',
-                    name: 'st'
+                    data: 'jumlah',
+                    name: 'jumlah'
                 },
                 {
-                    data: 'satuan',
-                    name: 'satuan'
+                    data: 'userid',
+                    name: 'userid'
                 },
                 {
                     data: 'action',

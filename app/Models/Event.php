@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Signin extends Authenticatable
+class Event extends Authenticatable
 {
-    protected $table = 'signin';
     public $timestamps = false;
+    protected $table = 'event';
+    protected $primaryKey = 'id_event';
     use HasFactory, Notifiable;
 
     /**
@@ -19,11 +20,9 @@ class Signin extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'userid',
-        'pass',
-        'nama',
-        'level',
-        'email',
-        'foto',
+        'nama_event',
+        'tanggal',
+        'htm',
+        'thumbnail',
     ];
 }

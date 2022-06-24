@@ -14,11 +14,9 @@
                             <thead class="font-weight-bold text-center">
                                 <tr>
                                     {{-- <th>No.</th> --}}
-                                    <th>No Telpon</th>
-                                    <th>Password</th>
-                                    <th>Nama</th>
-                                    <th>Level</th>
-                                    <th>email</th>
+                                    <th>Nama Event</th>
+                                    <th>Tanggal</th>
+                                    <th>HTM</th>
                                     <th>Foto</th>
                                     <th style="width:90px;">Action</th>
                                 </tr>
@@ -46,19 +44,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formUser" name="formUser" enctype="multipart/form-data" action="{{ route('pengguna.store') }}" method="POST">
+                <form id="formUser" name="formUser" enctype="multipart/form-data" action="{{ route('event.store') }}" method="POST">
                     <div class="form-group">
 
-                        <input type="text" name="userid" class="form-control" id="userid" placeholder="No Telp"><br>
-                        <input type="pass" name="pass" class="form-control" id="pass" placeholder="Password"><br>
-                        <input type="text" name="nama" class="form-control" id="nama" placeholder="Nama"><br>
-                        <select name="level" class="form-control" id="level">
-                            <option value="-">Pilih Level</option>
-                            <option value="3">3</option>
-                        </select><br>
-                        <input type="email" name="email" class="form-control" id="email" placeholder="Email"><br>
-                        <input type="file" name="foto" class="form-control" id="foto" placeholder="Foto"><br>
-                        <input type="hidden" name="id" id="id" value="">
+                        <input type="text" name="nama_event" class="form-control" id="nama_event" placeholder="Nama Event"><br>
+                        <input type="date" name="tanggal" class="form-control" id="tanggal" placeholder="Tanggal"><br>
+                        <input type="number" name="htm" class="form-control" id="htm" placeholder="Htm"><br>
+                        <input type="file" name="thumbnail" class="form-control" id="thumbnail" placeholder="Foto"><br>
+                        <input type="hidden" name="id_event" id="id_event" value="">
                     </div>
                 </form>
             </div>
@@ -103,31 +96,23 @@
             buttons: [
                 'copy', 'excel', 'pdf'
             ],
-            ajax: "{{ route('pengguna.index') }}",
+            ajax: "{{ route('event.index') }}",
             columns: [
                 {
-                    data: 'userid',
-                    name: 'userid'
+                    data: 'nama_event',
+                    name: 'nama_event'
                 },
                 {
-                    data: 'pass',
-                    name: 'pass'
+                    data: 'tanggal',
+                    name: 'tanggal'
                 },
                 {
-                    data: 'nama',
-                    name: 'nama'
+                    data: 'htm',
+                    name: 'htm'
                 },
                 {
-                    data: 'level',
-                    name: 'level'
-                },
-                {
-                    data: 'email',
-                    name: 'email'
-                },
-                {
-                    data: 'foto',
-                    name: 'foto',
+                    data: 'thumbnail',
+                    name: 'thumbnail',
                     render: function( data, type, full, meta ) {
                         return "<img src=\"" + data + "\" height=\"50\"/>";
                     }
@@ -150,41 +135,35 @@
         // initialize btn add
         $('#createNewUser').click(function () {
             $('#saveBtn').val("create user");
-            $('#id').val('');
+            $('#id_event').val('');
             $('#formUser').trigger("reset");
             $('#modal-user').modal('show');
         });
         // initialize btn edit
         $('body').on('click', '.editUser', function () {
-            var id = $(this).data('id');
-            $.get("{{route('pengguna.index')}}" + '/' + id + '/edit', function (data) {
+            var id_event = $(this).data('id');
+            $.get("{{route('event.index')}}" + '/' + id_event + '/edit', function (data) {
                 $('#saveBtn').val("edit-user");
                 $('#modal-user').modal('show');
-                $('#userid').val(data.userid);
-                $('#pass').val(data.pass);
-                $('#nama').val(data.nama);
-                $('#level').val(data.level);
-                $('#email').val(data.email);
-                $('#foto').val(data.foto);
+                $('#nama_event').val(data.nama_event);
+                $('#tanggal').val(data.tanggal);
+                $('#htm').val(data.htm);
+                $('#thumbnail').val(data.thumbnail);
             })
         });
         // initialize btn save
         $('#saveBtn').click(function (e) {
             var formData = new FormData($("#formUser")[0]);            
-               var id = $('#id').val();
-               var userid = $('#userid').val();
-               var pass = $('#pass').val();
-               var nama = $('#nama').val();
-               var level = $('#level').val();
-               var email = $('#email').val();
-               var foto = $('#foto').val();
-               console.log(id);
-               console.log(foto);
+               var id_event = $('#id_event').val();
+               var nama_event = $('#nama_event').val();
+               var tanggal = $('#tanggal').val();
+               var htm = $('#htm').val();
+               var thumbnail = $('#thumbnail').val();
             e.preventDefault();
             $(this).html('Save');
             $.ajax({
                 data: formData,
-                url: "{{ route('pengguna.store') }}",
+                url: "{{ route('event.store') }}",
                 type: "POST",
                 cache: false,
                 contentType: false,
@@ -204,7 +183,7 @@
 
         // initialize btn delete
         $('body').on('click', '.deleteUser', function () {
-            var id = $(this).data("id");
+            var id_event = $(this).data("id");
 
             Swal.fire({
                 title: 'Are you sure?',
@@ -218,7 +197,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "DELETE",
-                        url: "{{route('pengguna.index')}}" + '/' + id,
+                        url: "{{route('event.index')}}" + '/' + id_event,
                         success: function (data) {
                             swal_success();
                             table.draw();

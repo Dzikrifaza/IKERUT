@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SigninController;
 use App\Http\Controllers\ProdukController;
+use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -35,3 +37,5 @@ Route::post('/save', [ProdukController::class, 'save'])->name('save.produk');
 Route::resource('users', UsersController::class);
 Route::resource('pengguna', SigninController::class);
 Route::resource('produk', ProdukController::class);
+Route::resource('penjualan', PenjualanController::class);
+Route::resource('event', EventController::class);

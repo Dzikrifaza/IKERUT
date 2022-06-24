@@ -46,25 +46,17 @@ class ProdukController extends Controller
         return view('layouts.v_template',$data);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'thumbnail' =>'required|image'
+       
+        $request->validate([
+            'thumbnail' => 'required|image'
         ]);
 
-        if($validator){
-            // $path = 'files';
-            $file = $request->file('thumbnail');
-            $file_name = $file->getClientOriginalName();
+        if ($request->hasFile('thumbnail') == true) {
+            $file_name = $request->file('thumbnail')->store('gambar/produk');
 
-            $upload = $file->storeAs($file_name, 'local');
-
-            if($upload){
+        }
                 // return response()->json(['code'=>1,'msg'=>'Updated']);
                 Produk::updateOrCreate(['id' => $request->user_id],
                 [
@@ -75,21 +67,12 @@ class ProdukController extends Controller
                  'judul' => $request->judul,
                  'deskripsi' => $request->deskripsi,
                  'harga' => $request->harga,
-                 'thumbnail' => url('/'). '/storage/app/files/'.$file_name,
+                 'thumbnail' => $file_name,
                 //  'thumbnail' => 'dist/images/'.$file_name,
                  'st' => $request->st,
                  'satuan' => $request->satuan,
                 ]);
             return response()->json(['success'=>'Produk saved successfully!']);
-            }
-        }
-
-
-    }
-
-    public function show($id)
-    {
-        //
     }
 
     public function edit($id)
@@ -97,11 +80,6 @@ class ProdukController extends Controller
         $User = Produk::find($id);
         return response()->json($User);
 
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     public function destroy($id)

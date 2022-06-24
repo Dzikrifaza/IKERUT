@@ -84,7 +84,7 @@
         <!--begin::Logo-->
         <a href="#">
             {{-- <img alt="Logo" src="{{asset('metch')}}/media/logos/logo-light.png" /> --}}
-            <div class="text-white"><i class="fab fa-angrycreative fa-4x"></i></div>
+                <img src="{{ 'backend/logoIkerut.png' }}" width="150px" alt="#home">
         </a>
         <!--end::Logo-->
         <!--begin::Toolbar-->
